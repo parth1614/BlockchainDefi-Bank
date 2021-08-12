@@ -1,0 +1,12 @@
+{
+  "files": {
+    "contracts/MyToken.sol": [
+      {
+        "id": "b7fbc875-10b2-4676-a367-248a85b4960c",
+        "line": 7,
+        "version": 32,
+        "index": 146
+      }
+    ]
+  }
+}
