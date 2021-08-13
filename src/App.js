@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Main from './Main.js';
 import Web3 from 'web3'
-import DaiToken from './abis/DaiToken.json'
-import DappToken from './abis/DappToken.json'
-import TokenFarm from './abis/TokenFarm.json'
+//import DaiToken from './abis/DaiToken.json'
+import MyToken from './build/contracts/MyToken.json'
+import FarmToken from './build/contracts/FarmToken.json'
 
 
 
@@ -21,7 +21,7 @@ const accounts = await web3.eth.getAccounts()
     const networkId = await web3.eth.net.getId()
 
      // Load DaiToken
-    const daiTokenData = DaiToken.networks[networkId]
+    /*const daiTokenData = DaiToken.networks[networkId]
     if(daiTokenData) {
       const daiToken = new web3.eth.Contract(DaiToken.abi, daiTokenData.address)
       this.setState({ daiToken })
@@ -29,28 +29,28 @@ const accounts = await web3.eth.getAccounts()
       this.setState({ daiTokenBalance: daiTokenBalance.toString() })
     } else {
       window.alert('DaiToken contract not deployed to detected network.')
-    }
+    }*/
 
-    // Load DappToken
-    const dappTokenData = DappToken.networks[networkId]
-    if(dappTokenData) {
-      const dappToken = new web3.eth.Contract(DappToken.abi, dappTokenData.address)
-      this.setState({ dappToken })
-      let dappTokenBalance = await dappToken.methods.balanceOf(this.state.account).call()
-      this.setState({ dappTokenBalance: dappTokenBalance.toString() })
+    // Load MyToken
+    const MyTokenData = MyToken.networks[networkId]
+    if(MyTokenData) {
+      const MyToken = new web3.eth.Contract(MyToken.abi, MyTokenData.address)
+      this.setState({ MyToken })
+      let MyTokenBalance = await MyToken.methods.balanceOf(this.state.account).call()
+      this.setState({ MyTokenBalance: MyTokenBalance.toString() })
     } else {
-      window.alert('DappToken contract not deployed to detected network.')
+      window.alert('MyToken contract not be deployed to detected network.')
     }
 
     // Load TokenFarm
-    const tokenFarmData = TokenFarm.networks[networkId]
-    if(tokenFarmData) {
-      const tokenFarm = new web3.eth.Contract(TokenFarm.abi, tokenFarmData.address)
-      this.setState({ tokenFarm })
-      let stakingBalance = await tokenFarm.methods.stakingBalance(this.state.account).call()
+    const FarmTokenData = FarmToken.networks[networkId]
+    if(FarmTokenData) {
+      const FarmToken = new web3.eth.Contract(FarmToken.abi, FarmTokenData.address)
+      this.setState({ FarmToken })
+      let stakingBalance = await FarmToken.methods.stakingBalance(this.state.account).call()
       this.setState({ stakingBalance: stakingBalance.toString() })
     } else {
-      window.alert('TokenFarm contract not deployed to detected network.')
+      window.alert('FarmToken contract not be deployed to detected network.')
     }
 
     this.setState({ loading: false })
@@ -69,18 +69,18 @@ const accounts = await web3.eth.getAccounts()
     }
   }
 
-  stakeTokens = (amount) => {
+  deposit = (amount) => {
     this.setState({ loading: true })
-    this.state.daiToken.methods.approve(this.state.tokenFarm._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-      this.state.tokenFarm.methods.stakeTokens(amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+    this.state.MyToken.methods.approve(this.state.FarmToken._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.state.FarmToken.methods.deposit(amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
         this.setState({ loading: false })
       })
     })
   }
 
-  unstakeTokens = (amount) => {
+  withdraw = (amount) => {
     this.setState({ loading: true })
-    this.state.tokenFarm.methods.unstakeTokens().send({ from: this.state.account }).on('transactionHash', (hash) => {
+    this.state.FarmToken.methods.withdraw().send({ from: this.state.account }).on('transactionHash', (hash) => {
       this.setState({ loading: false })
     })
   }
@@ -89,11 +89,11 @@ const accounts = await web3.eth.getAccounts()
     super(props)
     this.state = {
       account: '0x0',
-      daiToken: {},
-      dappToken: {},
-      tokenFarm: {},
-      daiTokenBalance: '0',
-      dappTokenBalance: '0',
+     // daiToken: {},
+      MyTOken: {},
+      FarmToken: {},
+     // daiTokenBalance: '0',
+      MyTokenBalance: '0',
       stakingBalance: '0',
       loading: true
     }
@@ -107,8 +107,8 @@ let content
       content = <p id="loader" className="text-center">Loading...</p>
     } else {
       content = <Main
-        daiTokenBalance={this.state.daiTokenBalance}
-        dappTokenBalance={this.state.dappTokenBalance}
+       // daiTokenBalance={this.state.daiTokenBalance}
+        MyTokenBalance={this.state.MyTokenBalance}
         stakingBalance={this.state.stakingBalance}
         stakeTokens={this.stakeTokens}
         unstakeTokens={this.unstakeTokens}
@@ -118,7 +118,7 @@ let content
 
     return (
     
-      <div classname="Main">
+      <div className="Main">
     {content}
       </div>
   );

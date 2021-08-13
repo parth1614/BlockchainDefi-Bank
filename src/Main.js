@@ -23,7 +23,7 @@ class Main extends Component{
           <tbody>
             <tr>
               <td>{window.web3.utils.fromWei(this.props.stakingBalance, 'Ether')} mDAI</td>
-              <td>{window.web3.utils.fromWei(this.props.dappTokenBalance, 'Ether')} DAPP</td>
+              <td>{window.web3.utils.fromWei(this.props.MyTokenBalance, 'Ether')} DAPP</td>
             </tr>
           </tbody>
         </table>
@@ -37,12 +37,12 @@ class Main extends Component{
                 let amount
                 amount = this.input.value.toString()
                 amount = window.web3.utils.toWei(amount, 'Ether')
-                this.props.stakeTokens(amount)
+                this.props.deposit(amount)
               }}>
               <div>
                 <label className="float-left"><b>Stake Tokens</b></label>
                 <span className="float-right text-muted">
-                  Balance: {window.web3.utils.fromWei(this.props.daiTokenBalance, 'Ether')}
+                 
                 </span>
               </div>
               <div className="input-group mb-4">
@@ -66,7 +66,7 @@ class Main extends Component{
               className="btn btn-link btn-block btn-sm"
               onClick={(event) => {
                 event.preventDefault()
-                this.props.unstakeTokens()
+                this.props.withdraw()
               }}>
                 UN-STAKE...
               </button>
