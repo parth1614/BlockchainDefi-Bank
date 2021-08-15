@@ -1,0 +1,1 @@
+This directory contains the main Components of the Web App and the JSON files of the smart contracts
