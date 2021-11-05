@@ -6,6 +6,8 @@ require('chai')
   .use(require('chai-as-promised'))
   .should()
 
+//Helper function to covert the 18 zero's standard notation to 1 million using web3.utils
+//It will return the converted value, as we'll pass 1000000 as the parameter 'n'
 function tokens(n) {
   return web3.utils.toWei(n, 'ether');
 }
