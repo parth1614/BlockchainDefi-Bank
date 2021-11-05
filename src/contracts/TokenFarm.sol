@@ -6,8 +6,8 @@ import "./DaiToken.sol";
 contract TokenFarm {
     string public name = "Dapp Token Farm";
     address public owner;
-    DappToken public dappToken;
-    DaiToken public daiToken;
+    DappToken public dappToken; //Contract type of DappToken :-datatype basically
+    DaiToken public daiToken;   //Contract type of DaiToken  :-datatype basically
 
     address[] public stakers;
     mapping(address => uint) public stakingBalance;
